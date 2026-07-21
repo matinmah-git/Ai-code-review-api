@@ -34,7 +34,7 @@ def decode_access_token(token: str) -> dict[str, Any] | None:
     except JWTError:
         return None
 
-def current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) :
+def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) :
     token_data = decode_access_token(token)
     user_id = token_data.get("sub")
     user = db.query(User).filter(User.id == user_id).first()
@@ -48,7 +48,7 @@ def current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_
     return user
 
 def require_roles(*role):
-    def role_checker(current_user: User = Depends(current_user)):
+    def role_checker(current_user: User = Depends(get_current_user)):
         if current_user.role not in role:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="permission denied")
         return current_user
