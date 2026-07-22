@@ -181,7 +181,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/ai-code-review-api.git
+git clone https://github.com/matinmah-git/Ai-code-review-api.git
 
 cd ai-code-review-api
 ```
