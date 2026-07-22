@@ -58,37 +58,50 @@ An AI-powered code review platform built with **FastAPI** that analyzes source c
 ## 📂 Project Structure
 
 ```text
-app/
+Ai-code-review-api/
 │
-├── api/
-│   ├── auth.py
-│   └── reviews.py
+├── app/
+│   ├── api/
+│   │   ├── __init__.py
+│   │   ├── auth.py
+│   │   └── reviews.py
+│   │
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── config.py
+│   │   ├── prompts.py
+│   │   └── security.py
+│   │
+│   ├── database/
+│   │   ├── __init__.py
+│   │   └── database.py
+│   │
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── job.py
+│   │   ├── review.py
+│   │   └── user.py
+│   │
+│   ├── schemas/
+│   │   ├── __init__.py
+│   │   ├── analysis.py
+│   │   └── user.py
+│   │
+│   ├── services/
+│   │   ├── __init__.py
+│   │   ├── ai_service.py
+│   │   ├── github_service.py
+│   │   ├── file_service.py
+│   │   ├── review_service.py
+│   │   └── auth_service.py
+│   │
+│   └── main.py
 │
-├── core/
-│   ├── config.py
-│   ├── prompts.py
-│   └── security.py
-│
-├── database/
-│   └── database.py
-│
-├── models/
-│   ├── user.py
-│   ├── review.py
-│   └── job.py
-│
-├── schemas/
-│   ├── auth.py
-│   └── review.py
-│
-├── services/
-│   ├── ai_service.py
-│   ├── auth_service.py
-│   ├── file_service.py
-│   ├── github_service.py
-│   └── review_service.py
-│
-└── main.py
+├── run.py
+├── .env.example
+├── requirements.txt
+└── README.md
+
 ```
 
 ---
@@ -258,33 +271,11 @@ http://localhost:8000/redoc
 * Review Sharing
 * Team Workspaces
 * Webhook Support
-* Multiple AI Providers
 * Docker Deployment
 * Redis + Celery
 * Unit & Integration Tests
-* CI/CD Pipeline
 
 ---
-
-## 🎯 Learning Objectives
-
-This project demonstrates practical experience with:
-
-* FastAPI
-* REST API Design
-* SQLAlchemy ORM
-* JWT Authentication
-* Dependency Injection
-* Service Layer Architecture
-* GitHub API Integration
-* File Upload Handling
-* ZIP Processing
-* Prompt Engineering
-* LLM Integration
-* Secure Backend Development
-
----
-
 
 ## 👨‍💻 Author
 
