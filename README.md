@@ -78,7 +78,6 @@ Ai-code-review-api/
 │   │
 │   ├── models/
 │   │   ├── __init__.py
-│   │   ├── job.py
 │   │   ├── review.py
 │   │   └── user.py
 │   │
