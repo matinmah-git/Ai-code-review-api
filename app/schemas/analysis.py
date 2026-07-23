@@ -22,12 +22,10 @@ class ReviewResponse(BaseModel):
 
     @validator("ai_review", pre=True)
     def parse_ai_review(cls, v):
-        """Convert JSON string from database to dict."""
         if isinstance(v, str):
             try:
                 return json.loads(v)
             except json.JSONDecodeError:
-                # Return empty dict if JSON is invalid
                 return {}
         return v
 
