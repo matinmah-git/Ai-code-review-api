@@ -1,39 +1,35 @@
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel, validator
 from datetime import datetime
-
+import json
 
 class SnippetReviewRequest(BaseModel):
+    project_name: str
     code: str
 
 
 class GithubReviewRequest(BaseModel):
-    repository_url: HttpUrl
+    repository_url: str
 
-
-class JobResponse(BaseModel):
-    id: int
-    name: str
-    status: str
-    provider: str
-    created_at: datetime
-    completed_at: datetime | None
-
-    class Config:
-        from_attributes = True
-
-
-class UploadResponse(BaseModel):
-    message: str
-    job_id: int
 
 
 class ReviewResponse(BaseModel):
     id: int
-    job_id: int | None
+    title: str
     repository_url: str | None
     code: str | None
     ai_review: dict
     created_at: datetime
+
+    @validator("ai_review", pre=True)
+    def parse_ai_review(cls, v):
+        """Convert JSON string from database to dict."""
+        if isinstance(v, str):
+            try:
+                return json.loads(v)
+            except json.JSONDecodeError:
+                # Return empty dict if JSON is invalid
+                return {}
+        return v
 
     class Config:
         from_attributes = True
