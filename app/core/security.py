@@ -20,28 +20,37 @@ def hash_password(password: str) -> str:
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
-def create_access_token(data: dict):
+def create_access_token(data: dict) -> str:
     to_encode = data.copy()
     expire = datetime.now(timezone.utc) + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
     payload = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
     return payload
 
-def decode_access_token(token: str) -> dict[str, Any] | None:
+def decode_access_token(token: str) :
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         return payload
-    except JWTError:
-        return None
+    except JWTError as e :
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"decoding problem: {str(e)}")
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) :
-    token_data = decode_access_token(token)
-    user_id = token_data.get("sub")
-    user = db.query(User).filter(User.id == user_id).first()
+
     if token is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Could not validate credentials")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Could not validate credentials1")
+
+    token_data = decode_access_token(token)
+
+    if token_data is None:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Could not validate credentials2")
+
+    user_id = token_data.get("sub")
+
     if user_id is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Could not validate credentials")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Could not validate credentials3")
+
+    user = db.query(User).filter(User.id == user_id).first()
+
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Could not validate credentials")
 
