@@ -16,4 +16,3 @@ class User(Base):
     created_at = Column(DateTime, nullable=False, default=datetime.now(timezone.utc))
 
     reviews = relationship("Review", back_populates="user", cascade="all, delete-orphan")
-    jobs = relationship("Job", back_populates="user")
