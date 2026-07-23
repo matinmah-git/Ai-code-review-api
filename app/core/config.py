@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     AI_BASE_URL: str
     AI_MODEL: str
 
-    GITHUB_TOKEN: str | None = None
+    UPLOAD_DIRECTORY: str = "uploads"
 
     class Config:
         env_file = ".env"
